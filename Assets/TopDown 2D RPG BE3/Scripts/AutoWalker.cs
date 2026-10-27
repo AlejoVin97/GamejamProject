@@ -70,7 +70,24 @@ public class AutoWalker : MonoBehaviour
                 // Fin de la ruta actual
                 if (w >= current.childCount)
                 {
-                    if (current.TryGetComponent(out RouteInfo info) && info.onEnd == RouteInfo.EndAction.Restart)
+                    current.TryGetComponent(out RouteInfo info);
+
+                    if (info != null && info.onEnd == RouteInfo.EndAction.Loop)
+                    {
+                        w = Mathf.Clamp(info.loopStartIndex, 0, current.childCount - 1);    // vuelve al primer waypoint de esta ruta
+                        yield return null;                                                  // evita congelar Unity si la ruta es degenerada
+                        continue;
+                    }
+
+                    if (info != null && info.onEnd == RouteInfo.EndAction.Continue && info.nextRoute != null)
+                    {
+                        if (info.nextBecomesStart) route = info.nextRoute;   // el reinicio ahora cae aquí
+                        current = info.nextRoute;
+                        w = 0;
+                        continue;
+                    }
+
+                    if (info != null && info.onEnd == RouteInfo.EndAction.Restart)
                     {
                         // Camino equivocado: regresa al inicio
                         SetAnimating(false);
