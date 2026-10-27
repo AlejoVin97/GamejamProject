@@ -27,6 +27,9 @@ public class AutoWalker : MonoBehaviour
     public UnityEvent onRestart;                // vuelve al inicio del camino
     public UnityEvent onGoalReached;            // terminó una ruta correcta
 
+    // Se dispara cada vez que el bucle se reinicia tras perderse (las rocas lo escuchan)
+    public static event System.Action LoopRestarted;
+
     Coroutine run;
     bool lost;
 
@@ -45,11 +48,15 @@ public class AutoWalker : MonoBehaviour
 
     IEnumerator Run()
     {
+        bool firstRun = true;
+
         while (true)
         {
             // Inicio (o reinicio) del camino
             transform.position = grid.GetCellCenterWorld(CellOf(route.GetChild(0)));
             SetAnimating(false);
+            if (!firstRun) LoopRestarted?.Invoke();   // las rocas vuelven a su posición
+            firstRun = false;
             onRestart.Invoke();
             yield return new WaitForSeconds(restartDelay);
 

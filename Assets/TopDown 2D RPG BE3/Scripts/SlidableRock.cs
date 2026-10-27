@@ -16,6 +16,19 @@ public class SlidableRock : MonoBehaviour
         startPos = transform.position;
     }
 
+    void OnEnable() { AutoWalker.LoopRestarted += ResetPosition; }
+    void OnDisable() { AutoWalker.LoopRestarted -= ResetPosition; }
+
+    // Vuelve a su posición inicial cuando el personaje reinicia el bucle
+    void ResetPosition()
+    {
+        StopAllCoroutines();
+        sliding = false;
+        index = 0;
+        transform.position = startPos;
+        Physics2D.SyncTransforms();
+    }
+
     // Llamar desde el UnityEvent onInteract del Interactable
     public void Slide()
     {
