@@ -95,16 +95,6 @@
                     "interactions": "",
                     "initialStateCheck": false,
                     "priority": 0
-                },
-                {
-                    "name": "Click",
-                    "type": "Button",
-                    "id": "7c787f74-ad10-4ded-b9eb-2c89c7528ccf",
-                    "expectedControlType": "",
-                    "processors": "",
-                    "interactions": "",
-                    "initialStateCheck": false,
-                    "priority": 0
                 }
             ],
             "bindings": [
@@ -490,17 +480,6 @@
                     "processors": "",
                     "groups": "Keyboard&Mouse",
                     "action": "Crouch",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "ce761e0c-aa71-4a58-bce4-e99fbe16645f",
-                    "path": "",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Click",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
