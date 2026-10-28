@@ -18223,8 +18223,8 @@ GameObject:
   - component: {fileID: 1363453792}
   - component: {fileID: 1363453791}
   - component: {fileID: 1363453795}
-  - component: {fileID: 1363453794}
   - component: {fileID: 1363453796}
+  - component: {fileID: 1363453797}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -18306,26 +18306,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1363453794
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1363453790}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c4dc3563b10b8ea49920b719de918ab9, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::FinalCinematicController
-  director: {fileID: 1632381328}
-  transitionStartTime: 14
-  transitionDuration: 2
-  initialTarget: {fileID: 1135738516}
-  finalTarget: {fileID: 1966609496}
-  initialOffset: {x: 0, y: 1}
-  finalOffset: {x: 0, y: 1}
-  positionSmoothTime: 0.3
 --- !u!114 &1363453795
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -18467,6 +18447,26 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &1363453797
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1363453790}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d02391c9d536b8e44a2065da3c26993d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::FinalCinematicController
+  director: {fileID: 1632381328}
+  transitionStartTime: 14
+  transitionDuration: 2
+  initialTarget: {fileID: 1135738516}
+  finalTarget: {fileID: 1966609496}
+  initialOffset: {x: 0, y: 1}
+  finalOffset: {x: 0, y: 1}
+  positionSmoothTime: 0.35
 --- !u!1001 &1454051411
 PrefabInstance:
   m_ObjectHideFlags: 0
