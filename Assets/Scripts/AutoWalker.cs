@@ -107,7 +107,7 @@ public class AutoWalker : MonoBehaviour
                 if (wp.TryGetComponent(out RouteBranch branch))
                 {
                     Transform chosen = ChooseBranch(branch);
-                    Debug.Log($"[Walker] Bifurcación '{wp.name}' en {wp.parent.name} -> {(chosen != null ? chosen.name : "sigue")}", wp);
+                    // Debug.Log($"[Walker] Bifurcación '{wp.name}' en {wp.parent.name} -> {(chosen != null ? chosen.name : "sigue")}", wp);
                     if (chosen != null)
                     {
                         current = chosen;
@@ -168,7 +168,7 @@ public class AutoWalker : MonoBehaviour
 
             if (IsBlocked(next))
             {
-                Debug.Log($"[Walker] Perdido en {CurrentCell()} al ir a {next}. Bloquea: {WhoBlocks(next)}", this);
+                // Debug.Log($"[Walker] Perdido en {CurrentCell()} al ir a {next}. Bloquea: {WhoBlocks(next)}", this);
                 yield return Lost(dir);
                 lost = true;
                 yield break;
