@@ -13,7 +13,6 @@ GameObject:
   - component: {fileID: 8266491774064700872}
   - component: {fileID: 380688055646176052}
   - component: {fileID: 3917166399912724472}
-  - component: {fileID: 8548982666229118067}
   m_Layer: 6
   m_Name: Pajarito
   m_TagString: Untagged
@@ -85,7 +84,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 21
   m_MaskInteraction: 0
-  m_Sprite: {fileID: 1139354875, guid: 6d887a4e503cb94488c35fe91d94230f, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 4b497e9295dead045828d12a8689df0b, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -162,9 +161,9 @@ MonoBehaviour:
   onInteract:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: SlidableRock, Assembly-CSharp
-        m_MethodName: Slide
+      - m_Target: {fileID: 3917166399912724472}
+        m_TargetAssemblyTypeName: UnityEngine.AudioSource, UnityEngine
+        m_MethodName: Play
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -185,9 +184,9 @@ AudioSource:
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 0}
-  m_Resource: {fileID: 0}
-  m_PlayOnAwake: 1
-  m_Volume: 1
+  m_Resource: {fileID: 8300000, guid: 16ec273136ca1ec4a951ad7c3803d18b, type: 3}
+  m_PlayOnAwake: 0
+  m_Volume: 0.262
   m_Pitch: 1
   Loop: 0
   Mute: 0
@@ -271,18 +270,3 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
---- !u!114 &8548982666229118067
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4246593762924673050}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8369c124faa343d42b24b984d78b08fd, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::DelayedAudio
-  delay: 8
-  repeatEvery: 0
-  playOnEnable: 0

@@ -30,8 +30,17 @@ public class AutoWalker : MonoBehaviour
     // Se dispara cada vez que el bucle se reinicia tras perderse (las rocas lo escuchan)
     public static event System.Action LoopRestarted;
 
+    // Ruta que está recorriendo ahora mismo (null antes de arrancar)
+    public static Transform CurrentRoute { get; private set; }
+    public static event System.Action<Transform> RouteChanged;
+
     Coroutine run;
     bool lost;
+
+    void Awake()
+    {
+        CurrentRoute = null;   // por si el Editor no recarga el dominio entre ejecuciones
+    }
 
     void Start()
     {
@@ -44,6 +53,12 @@ public class AutoWalker : MonoBehaviour
         route = newRoute;
         if (run != null) StopCoroutine(run);
         run = StartCoroutine(Run());
+    }
+
+    void SetCurrent(Transform r)
+    {
+        CurrentRoute = r;
+        RouteChanged?.Invoke(r);
     }
 
     IEnumerator Run()
@@ -63,6 +78,7 @@ public class AutoWalker : MonoBehaviour
             lost = false;
             bool goal = false;
             Transform current = route;
+            SetCurrent(current);
             int w = 1;   // en la ruta principal el waypoint 0 es el inicio
 
             while (!lost)
@@ -78,6 +94,7 @@ public class AutoWalker : MonoBehaviour
                         if (info.chosenRoute != null)
                         {
                             current = info.chosenRoute;
+                            SetCurrent(current);
                             info.chosenRoute = null;
                             w = 0;
                             continue;
@@ -92,6 +109,7 @@ public class AutoWalker : MonoBehaviour
                     {
                         if (info.nextBecomesStart) route = info.nextRoute;   // el reinicio ahora cae aquí
                         current = info.nextRoute;
+                        SetCurrent(current);
                         w = 0;
                         continue;
                     }
@@ -120,6 +138,7 @@ public class AutoWalker : MonoBehaviour
                     if (chosen != null)
                     {
                         current = chosen;
+                        SetCurrent(current);
                         w = 0;      // en una ruta de bifurcación, todos los hijos son destinos
                         continue;
                     }
