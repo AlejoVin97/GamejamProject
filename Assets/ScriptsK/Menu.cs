@@ -3,13 +3,13 @@ using UnityEngine.SceneManagement;
 
 public class Menu : MonoBehaviour
 {
-
+    [SerializeField] int numeroScene;
     [SerializeField] 
-    GameObject menu,settings;
+    GameObject menu,settings,menuGame;
 
     public void PlayGame()
     {
-        SceneManager.LoadScene(1);
+        SceneManager.LoadScene(numeroScene);
     }
 
     public void Settings()
@@ -27,5 +27,9 @@ public class Menu : MonoBehaviour
     public void ExitGame()
     {
         Application.Quit();
+    }
+    public void CloseMenu()
+    {
+        menuGame.SetActive(false);
     }
 }
