@@ -14,6 +14,12 @@ public class ZoneManager : MonoBehaviour
     [SerializeField] int edgeDistance = 3;     // casillas al borde de la siguiente zona para alejar
     [SerializeField] float revealHold = 2f;    // segundos que se muestra la zona recién desbloqueada (0 = desactivado)
 
+    [SerializeField] Camera[] fixedCameras;   // one per zone, same order as Zones. Leave None to use the moving camera
+    [SerializeField] float arriveTolerance = 0.05f;   // how close the moving camera must be to a fixed view before swapping
+
+    // The camera that is rendering right now (ClickInteractor needs it)
+    public Camera ActiveCamera { get; private set; }
+
     Bounds[] zoneBounds;
     List<Vector3Int>[] zoneCells;
     Vector3 initialPos;
@@ -59,6 +65,11 @@ public class ZoneManager : MonoBehaviour
         if (revealTimer > 0f) revealTimer -= Time.deltaTime;
 
         UpdateZoneState();
+        UpdateActiveCamera();
+
+        // A fixed camera is active: nothing to move
+        if (ActiveCamera != cam) return;
+
         GetTarget(out Vector3 pos, out float size, out float posTime);
 
         cam.orthographicSize = Mathf.SmoothDamp(cam.orthographicSize, size, ref sizeVel, zoomTime);
@@ -101,6 +112,15 @@ public class ZoneManager : MonoBehaviour
             Bounds all = zoneBounds[0];
             for (int i = 1; i <= unlocked; i++) all.Encapsulate(zoneBounds[i]);
             Fit(all, out pos, out size);
+            return;
+        }
+
+        // 1.5) The current zone has a fixed camera: glide to its view before swapping to it
+        Camera fixedView = GetFixedCamera(currentZone);
+        if (fixedView != null)
+        {
+            pos = new Vector3(fixedView.transform.position.x, fixedView.transform.position.y, initialPos.z);
+            size = fixedView.orthographicSize;
             return;
         }
 
@@ -161,5 +181,56 @@ public class ZoneManager : MonoBehaviour
         foreach (Vector3Int c in map.cellBounds.allPositionsWithin)
             if (map.HasTile(c)) list.Add(c);
         return list;
+    }
+
+    // Picks which camera should be on: the fixed one of the current zone, or the moving one
+    void UpdateActiveCamera()
+    {
+        Camera fixedCam = GetFixedCamera(currentZone);
+
+        // While a new zone is being revealed, use the moving camera so the zoom out still works
+        Camera wanted = (fixedCam != null && revealTimer <= 0f) ? fixedCam : cam;
+
+        // Going from one fixed camera to another: pass through the moving camera so it glides
+        if (wanted != cam && ActiveCamera != null && ActiveCamera != cam && ActiveCamera != wanted)
+            wanted = cam;
+
+        // The moving camera is gliding toward a fixed view: swap only when it has arrived
+        if (wanted != cam && ActiveCamera == cam && !HasArrived(wanted)) return;
+
+        if (wanted == ActiveCamera) return;
+
+        // The moving camera takes over: start from the fixed view to avoid a visual jump
+        if (wanted == cam && ActiveCamera != null)
+        {
+            Vector3 p = ActiveCamera.transform.position;
+            cam.transform.position = new Vector3(p.x, p.y, initialPos.z);
+            cam.orthographicSize = ActiveCamera.orthographicSize;
+            posVel = Vector3.zero;
+            sizeVel = 0f;
+        }
+
+        // Turn on the wanted camera and turn off all the others
+        wanted.gameObject.SetActive(true);
+        if (cam != wanted) cam.gameObject.SetActive(false);
+        foreach (Camera c in fixedCameras)
+            if (c != null && c != wanted) c.gameObject.SetActive(false);
+
+        ActiveCamera = wanted;
+    }
+
+    // True when the moving camera shows (almost) the same view as the fixed one
+    bool HasArrived(Camera target)
+    {
+        Vector2 a = cam.transform.position;
+        Vector2 b = target.transform.position;
+        return Vector2.Distance(a, b) <= arriveTolerance &&
+               Mathf.Abs(cam.orthographicSize - target.orthographicSize) <= arriveTolerance;
+    }
+
+    Camera GetFixedCamera(int zone)
+    {
+        if (fixedCameras == null || zone >= fixedCameras.Length) return null;
+        return fixedCameras[zone];
     }
 }

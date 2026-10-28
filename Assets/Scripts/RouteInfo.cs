@@ -22,6 +22,17 @@ public class RouteInfo : MonoBehaviour
     [Tooltip("Solo con Loop. Waypoint al que vuelve cada vuelta. Usa 1 si el waypoint 0 es solo el punto de entrada.")]
     public int loopStartIndex = 0;
 
+    // Route chosen by the player (set by a bird click). Used only by Loop routes
+    [HideInInspector] public Transform chosenRoute;
+
+    void OnEnable() { AutoWalker.LoopRestarted += ClearChoice; }
+    void OnDisable() { AutoWalker.LoopRestarted -= ClearChoice; }
+
+    void ClearChoice() { chosenRoute = null; }
+
+    // Call this from an Interactable's onInteract event, passing the route to take
+    public void ChooseRoute(Transform route) { chosenRoute = route; }
+
     // Dibuja las rutas en la Scene para ver los bucles (cian = Loop)
     void OnDrawGizmos()
     {

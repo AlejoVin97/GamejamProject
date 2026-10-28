@@ -74,8 +74,17 @@ public class AutoWalker : MonoBehaviour
 
                     if (info != null && info.onEnd == RouteInfo.EndAction.Loop)
                     {
-                        w = Mathf.Clamp(info.loopStartIndex, 0, current.childCount - 1);    // vuelve al primer waypoint de esta ruta
-                        yield return null;                                                  // evita congelar Unity si la ruta es degenerada
+                        // The player picked a bird: leave the loop and take the chosen route
+                        if (info.chosenRoute != null)
+                        {
+                            current = info.chosenRoute;
+                            info.chosenRoute = null;
+                            w = 0;
+                            continue;
+                        }
+
+                        w = Mathf.Clamp(info.loopStartIndex, 0, current.childCount - 1);
+                        yield return null;
                         continue;
                     }
 
