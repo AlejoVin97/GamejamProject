@@ -7,7 +7,7 @@ public class Settings : MonoBehaviour
     [SerializeField] 
     Slider sliderMusic,sliderSFX;
     [SerializeField] AudioMixer audioM;
-
+   
     void Start()
     {
         float musicValue = PlayerPrefs.GetFloat("ValueMusic", 1f);
