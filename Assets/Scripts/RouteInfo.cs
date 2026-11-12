@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 // Se agrega al objeto padre de una ruta para indicar qué pasa al terminarla
 public class RouteInfo : MonoBehaviour
@@ -25,6 +26,13 @@ public class RouteInfo : MonoBehaviour
     // Route chosen by the player (set by a bird click). Used only by Loop routes
     [HideInInspector] public Transform chosenRoute;
 
+    [Header("Escena al completar Goal")]
+    [Tooltip("Nombre de la escena de destino incluida en la Scene List.")]
+    [SerializeField] private string nextSceneName;
+
+    // Impide procesar varias veces la misma transición.
+    private bool sceneLoadRequested;
+
     void OnEnable() { AutoWalker.LoopRestarted += ClearChoice; }
     void OnDisable() { AutoWalker.LoopRestarted -= ClearChoice; }
 
@@ -32,6 +40,41 @@ public class RouteInfo : MonoBehaviour
 
     // Call this from an Interactable's onInteract event, passing the route to take
     public void ChooseRoute(Transform route) { chosenRoute = route; }
+
+    // Conectar al evento onGoalReached del AutoWalker del jugador.
+    public void LoadNextSceneOnGoal()
+    {
+        // Solo responde la RouteInfo de la ruta que acaba de completar.
+        if (!isActiveAndEnabled ||
+            sceneLoadRequested ||
+            onEnd != EndAction.Goal ||
+            AutoWalker.CurrentRoute != transform)
+        {
+            return;
+        }
+
+        // También evita repetir advertencias si se invoca varias veces.
+        sceneLoadRequested = true;
+
+        if (string.IsNullOrWhiteSpace(nextSceneName))
+        {
+            Debug.LogWarning(
+                "RouteInfo: no se ha configurado la escena de destino.",
+                this);
+            return;
+        }
+
+        if (!Application.CanStreamedLevelBeLoaded(nextSceneName))
+        {
+            Debug.LogWarning(
+                $"RouteInfo: la escena '{nextSceneName}' no está disponible. " +
+                "Comprueba Build Profiles > Scene List.",
+                this);
+            return;
+        }
+
+        SceneManager.LoadScene(nextSceneName, LoadSceneMode.Single);
+    }
 
     // Dibuja las rutas en la Scene para ver los bucles (cian = Loop)
     void OnDrawGizmos()

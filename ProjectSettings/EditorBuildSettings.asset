@@ -14,6 +14,9 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Demo.unity
     guid: b4b5e112b6b40ae4885800a5f955ee72
+  - enabled: 1
+    path: Assets/Scenes/FinalCinematic.unity
+    guid: e3519d29ff46b714eaa5c63970c1229d
   - enabled: 0
     path: Assets/Scenes/Kevin.unity
     guid: c6ded72bf8f9ec44caec8bacbbabee45
