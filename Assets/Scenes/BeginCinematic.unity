@@ -2890,7 +2890,7 @@ AudioSource:
   m_audioClip: {fileID: 0}
   m_Resource: {fileID: 8300000, guid: 9be47b9b593073943896738f58594d02, type: 3}
   m_PlayOnAwake: 1
-  m_Volume: 1
+  m_Volume: 0.352
   m_Pitch: 1
   Loop: 0
   Mute: 0
@@ -4567,6 +4567,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 9163711365383314206, guid: e18852c00b95e4f4999569cd1da5a45c, type: 3}
       insertIndex: -1
       addedObject: {fileID: 9006742045723950946}
+    - targetCorrespondingSourceObject: {fileID: 9163711365383314206, guid: e18852c00b95e4f4999569cd1da5a45c, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 9006742045723950948}
   m_SourcePrefab: {fileID: 100100000, guid: e18852c00b95e4f4999569cd1da5a45c, type: 3}
 --- !u!1 &9006742045723950945 stripped
 GameObject:
@@ -4594,6 +4597,20 @@ PlayableDirector:
     value: {fileID: 1182844774}
   m_ExposedReferences:
     m_References: []
+--- !u!114 &9006742045723950948
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9006742045723950945}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9cd26756e8b4bd9429cbf4ea604a031f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::TimelineSceneLoader
+  _director: {fileID: 9006742045723950946}
+  _nextSceneName: Scenes/Demo
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0

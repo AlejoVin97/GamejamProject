@@ -1,3 +1,4 @@
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -9,7 +10,7 @@ public class Menu : MonoBehaviour
 
     public void PlayGame()
     {
-        SceneManager.LoadScene(numeroScene);
+        SceneManager.LoadScene(1);
     }
 
     public void Settings()
@@ -26,7 +27,11 @@ public class Menu : MonoBehaviour
 
     public void ExitGame()
     {
+#if UNITY_EDITOR
+        EditorApplication.ExitPlaymode();
+#else
         Application.Quit();
+#endif
     }
     public void CloseMenu()
     {
